@@ -5,20 +5,17 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 
 const app = express();
-const ads = [
-  {title: 'Hello, world (again)!'}
-];
 
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(cors());
 app.use(morgan('combined'));
+app.use(express.urlencoded({ extended: true }));
 
-app.get('/', (req, res) => {
-  res.send(ads);
-});
+app.use("/account/v1", require("./src/routes/account"));
+app.use("/database/v1", require("./src/routes/database"));
 
 // starting the server
 app.listen(3001, () => {
-  console.log('listening on port 3001');
+  console.log('Starting server on port 3001');
 });
