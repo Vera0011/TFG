@@ -4,18 +4,13 @@ const {
   create_bearer_token,
   decode_bearer_token,
 } = require("../internal/auth");
+const { validate_user } = require("../internal/validation_user");
 
 /* USER REGISTER */
-router.post("/register", (req, res) => {
-  /* DATABASE SEARCHED USER */
-  let searchedUser = "";
-  /* */
+router.post("/register", async(req, res) => {
+let data = await validate_user(req.body.email, req.body.password, req.body.api_key);
 
-  if (
-    req.body.email != searchedUser.email ||
-    req.body.password != searchedUser.password ||
-    req.body.api_key != searchedUser.api_key
-  )
+  if (data != 0)
     return res
       .status(401)
       .send({ code: 401, message: "Invalid user, password or api key" });
@@ -23,7 +18,7 @@ router.post("/register", (req, res) => {
     res.status(200).send({
       code: 200,
       message: "User authenticated",
-      token: create_bearer_token(searchedUser.email, searchedUser.api_key),
+      token: create_bearer_token(req.body.email, req.body.api_key),
     });
   }
 });
