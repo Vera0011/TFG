@@ -1,11 +1,13 @@
+/* CREATION OF BEARER TOKEN */
+
 const jwt = require("jwt-simple");
 const moment = require("moment");
 require("dotenv").config();
 
 const create_bearer_token = (user_id, api_key) => {
-    console.log(process.env.TOKEN_PRIVATE)
-    
-    return jwt.encode(
+  console.log(process.env.TOKEN_PRIVATE)
+
+  return jwt.encode(
     {
       sub: user_id,
       api_key: api_key,

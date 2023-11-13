@@ -3,14 +3,16 @@ const router = express.Router();
 const {
   create_bearer_token,
   decode_bearer_token,
-} = require("../internal/auth");
+} = require("../internal/auth_bearer");
 const { validate_user } = require("../internal/validation_user");
 
 /* USER REGISTER */
-router.post("/register", async(req, res) => {
-let data = await validate_user(req.body.email, req.body.password, req.body.api_key);
+router.post("/register", async (req, res) => {
+  if (!req.body.email || !req.body.password || !req.body.api_key) return res.status(401).send({ code: 401, message: "In order to make this petition, you need to add to the body: Email, password and Api Key. Remember to specify the 'Content-Type' of the petition" })
 
-  if (data != 0)
+  let data = await validate_user(req.body.email, req.body.password, req.body.api_key);
+
+  if (data == 0)
     return res
       .status(401)
       .send({ code: 401, message: "Invalid user, password or api key" });
