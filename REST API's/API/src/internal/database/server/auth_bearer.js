@@ -5,8 +5,6 @@ const moment = require("moment");
 require("dotenv").config();
 
 const create_bearer_token = (user_id, api_key) => {
-  console.log(process.env.TOKEN_PRIVATE)
-
   return jwt.encode(
     {
       sub: user_id,
@@ -22,4 +20,14 @@ const decode_bearer_token = (bearer_token) => {
   return jwt.decode(bearer_token, process.env.TOKEN_PRIVATE);
 };
 
-module.exports = { create_bearer_token, decode_bearer_token };
+const check_active_bearer = (response, exp) => {
+  if (exp <= moment().unix())
+    return response.status(401).send({ code: 401, message: "Token expired" });
+  else response.status(200).send({ code: 200, message: "User authenticated" });
+};
+
+module.exports = {
+  create_bearer_token,
+  decode_bearer_token,
+  check_active_bearer,
+};
