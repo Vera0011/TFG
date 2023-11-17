@@ -3,6 +3,9 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const https = require("https");
+const fs = require("fs");
+
 
 const app = express();
 
@@ -30,7 +33,12 @@ app.use((req, res) => {
   res.type('txt').status(404).send('Code 404 - Bad request - Not found');
 });
 
-// starting the server
-app.listen(process.env.SERVER_PORT, process.env.SERVER_IP, () => {
+let options = {
+  key: fs.readFileSync("server.key"),
+  cert: fs.readFileSync("server.crt")
+}
+
+/* Starting the server */
+const server = https.createServer(options, app).listen(process.env.SERVER_PORT, process.env.SERVER_IP, () => {
   console.log('Starting server on port ' + process.env.SERVER_PORT);
 });
