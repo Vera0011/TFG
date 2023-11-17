@@ -4,11 +4,11 @@ const jwt = require("jwt-simple");
 const moment = require("moment");
 require("dotenv").config();
 
-const create_bearer_token = (user_id, api_key) => {
+const create_bearer_token = (user_id, password) => {
   return jwt.encode(
     {
       sub: user_id,
-      api_key: api_key,
+      password: password,
       iat: moment().unix(),
       exp: moment().add(24, "hours").unix(),
     },

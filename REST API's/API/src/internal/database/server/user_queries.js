@@ -10,12 +10,8 @@ const get_from_server_data = async (object_params, collection_name) => {
     .catch((err) => console.log(err));
 };
 
-const create_database_mysql = async () => {
-
-}
-
 const create_database_mongodb = async () => {
 
 }
 
-module.exports = { get_from_server_data, create_database_mysql, create_database_mongodb };
+module.exports = { get_from_server_data, create_database_mongodb };

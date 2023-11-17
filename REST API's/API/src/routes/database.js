@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { create_database_mysql, create_database_mongodb } = require("../internal/database/server/user_queries")
+const { create_database_mongodb } = require("../internal/database/server/user_queries")
 
 router.post("/create", async (req, res) => {
   if (
@@ -35,7 +35,6 @@ router.post("/create", async (req, res) => {
     return res.status(401).send({ code: 401, message: "Token expired" });
   else {
     if (req.body.type == "mongodb") create_database_mongodb(req.body.user, req.body.password, req.body.demo);
-    else if (req.body.type == "mysql") create_database_mysql(req.body.user, req.body.password, req.body.demo);
     else res.status(401).send({ code: 401, message: "Database format not supported" });
   }
 });

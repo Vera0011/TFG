@@ -31,6 +31,6 @@ app.use((req, res) => {
 });
 
 // starting the server
-app.listen(80, () => {
-  console.log('Starting server on port 80');
+app.listen(process.env.SERVER_PORT, process.env.SERVER_IP, () => {
+  console.log('Starting server on port ' + process.env.SERVER_PORT);
 });
