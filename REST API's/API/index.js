@@ -34,11 +34,11 @@ app.use((req, res) => {
 });
 
 let options = {
-  key: fs.readFileSync("server.key"),
-  cert: fs.readFileSync("server.crt")
+  key: fs.readFileSync("key.pem"),
+  cert: fs.readFileSync("cert.pem")
 }
 
 /* Starting the server */
-const server = https.createServer(options, app).listen(process.env.SERVER_PORT, process.env.SERVER_IP, () => {
+https.createServer(options, app).listen(process.env.SERVER_PORT, process.env.SERVER_IP, () => {
   console.log('Starting server on port ' + process.env.SERVER_PORT);
 });
