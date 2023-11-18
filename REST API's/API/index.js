@@ -34,6 +34,6 @@ app.use((req, res) => {
 });
 
 /* Starting the server */
-http.createServer(app).listen(process.env.SERVER_PORT, process.env.SERVER_IP, () => {
+app.listen(process.env.SERVER_PORT, process.env.SERVER_IP, () => {
   console.log('Starting server on port ' + process.env.SERVER_PORT);
 });
