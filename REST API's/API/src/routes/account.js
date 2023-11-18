@@ -7,18 +7,14 @@ const { Users } = require("../internal/database/server/User");
 
 /* USER REGISTER */
 router.post("/register", async (req, res) => {
-  if (!req.body.email || !req.body.password)
+  if (req.body.email == undefined || req.body.password == undefined)
     return res.status(401).send({
       code: 401,
       message:
         "In order to make this petition, you need to add to the body: Email and password. Remember to specify the 'Content-Type' of the petition",
     });
 
-  let userObject = new Users(
-    req.body.email,
-    req.body.password
-  );
-  let isRegistered = await userObject.isRegistered();
+  let isRegistered = await new Users().isRegistered(req.body.email, req.body.password);
 
   if (!isRegistered)
     return res

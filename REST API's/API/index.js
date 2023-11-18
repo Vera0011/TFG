@@ -3,10 +3,6 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
-const http = require("http");
-const fs = require("fs");
-
-
 const app = express();
 
 app.use(helmet());
@@ -20,11 +16,11 @@ app.use("/account/v1", require("./src/routes/account"));
 app.use("/database/v1", require("./src/routes/database"));
 
 /* IF 404 PETITION IS SENT */
-app.use((req, res) => {
+app.use('*', (req, res) => {
   res.status(404);
 
   // respond with html page
-  if (req.accepts('html')) return res.status(404).send({ code: 404, error: 'Bad request - Not found' });
+  if (req.accepts('html')) return res.status(404).sendFile(require("path").join(__dirname + "/src/public/index.html"));
 
   // respond with json
   if (req.accepts('json')) return res.status(404).json({ code: 404, error: 'Bad request - Not found' });

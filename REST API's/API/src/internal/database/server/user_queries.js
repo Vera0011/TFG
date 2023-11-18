@@ -1,7 +1,7 @@
 const database_connection = require("./init_connection");
 
 const get_from_server_data = async (object_params, collection_name) => {
-  let database = (await database_connection).db("server_test");
+  let database = (await database_connection).db("server_data");
 
   return await database
     .collection(collection_name)
