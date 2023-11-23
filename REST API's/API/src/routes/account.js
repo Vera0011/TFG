@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const {
   create_bearer_token,
+  decode_bearer_token
 } = require("../internal/database/server/auth_bearer");
 const { Users } = require("../internal/database/server/User");
 
