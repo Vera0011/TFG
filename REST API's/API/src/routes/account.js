@@ -29,7 +29,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
-router.post("/status_login", (req, res) => {
+router.get("/status_login", (req, res) => {
   if (!req.headers.authorization || req.headers.authorization.split(" ")[1].includes("undefined"))
     return res.status(401).send({ code: 401, message: "Token not provided or undefined" });
 
