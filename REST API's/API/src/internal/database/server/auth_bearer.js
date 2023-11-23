@@ -17,7 +17,7 @@ const create_bearer_token = (user_id, password) => {
 };
 
 const decode_bearer_token = (bearer_token) => {
-  return jwt.decode(bearer_token, process.env.TOKEN_PRIVATE);
+  return jwt.decode(bearer_token, process.env.TOKEN_PRIVATE).catch((err) => console.log(err));
 };
 
 const check_active_bearer = (response, exp) => {
