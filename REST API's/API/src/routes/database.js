@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const { create_database_mongodb } = require("../internal/database/server/user_queries")
+const { create_database_mongodb, get_internal_data_mongodb } = require("../internal/database/server/user_queries")
 
+/* FINISHED CREATION DB */
 router.post("/create", async (req, res) => {
   if (
     !req.headers.authorization ||
@@ -39,7 +40,41 @@ router.post("/create", async (req, res) => {
   }
 });
 
-router.post("/query", async (req, res) => { });
+/* FINISHED */
+router.post("/query", async (req, res) => {
+  if (
+    !req.headers.authorization ||
+    req.headers.authorization.split(" ")[1].includes("undefined")
+  )
+    return res
+      .status(401)
+      .send({ code: 401, message: "Token not provided or undefined" });
+
+  if (!req.body.collection || !req.body.params)
+    return res
+      .status(401)
+      .send({
+        code: 401,
+        message:
+          "Specify a Collection and the params",
+      });
+
+  let { sub, exp } = decode_bearer_token(
+    req.headers.authorization.split(" ")[1]
+  );
+
+  /* DATABASE SEARCHED USER */
+  let searchedUser = await get_internal_data({ email: sub }, "Users");
+
+  if (searchedUser.length != 1)
+    return res.status(401).send({ code: 401, message: "Invalid user" });
+  if (exp <= moment().unix())
+    return res.status(401).send({ code: 401, message: "Token expired" });
+  else {
+    if (req.body.type == "mongodb") get_internal_data_mongodb(req.body.collection, req.body.params, "test_1234");
+    else res.status(401).send({ code: 401, message: "Database format not supported" });
+  }
+});
 
 router.post("/drop", async (req, res) => { });
 
