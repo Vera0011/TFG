@@ -71,7 +71,7 @@ router.post("/query", async (req, res) => {
   if (exp <= moment().unix())
     return res.status(401).send({ code: 401, message: "Token expired" });
   else {
-    if (req.body.type == "mongodb") get_internal_data_mongodb(req.body.collection, req.body.params, "test_1234");
+    if (req.body.type == "mongodb") res.status(200).send({ code: 200, message: await get_internal_data_mongodb(req.body.collection, req.body.params, "test_1234") });
     else res.status(401).send({ code: 401, message: "Database format not supported" });
   }
 });
