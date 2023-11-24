@@ -10,8 +10,8 @@ const get_from_server_data = async (object_params, collection_name) => {
     .catch((err) => console.log(err));
 };
 
-const get_internal_data_mongodb = async (object_params, collection_name, database) => {
-  let database = (await database_connection).db(database);
+const get_internal_data_mongodb = async (object_params, collection_name, database_name) => {
+  let database = (await database_connection).db(database_name);
 
   return await database
     .collection(collection_name)
