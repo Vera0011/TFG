@@ -50,13 +50,13 @@ router.post("/query", async (req, res) => {
       .status(401)
       .send({ code: 401, message: "Token not provided or undefined" });
 
-  if (!req.body.collection || !req.body.params)
+  if (!req.body.collection || !req.body.query)
     return res
       .status(401)
       .send({
         code: 401,
         message:
-          "Specify a Collection and the params",
+          "Specify a Collection and the query",
       });
 
   let { sub, exp } = decode_bearer_token(
@@ -71,7 +71,7 @@ router.post("/query", async (req, res) => {
   if (exp <= moment().unix())
     return res.status(401).send({ code: 401, message: "Token expired" });
   else {
-    if (req.body.type == "mongodb") res.status(200).send({ code: 200, message: [await get_internal_data_mongodb(req.body.collection, req.body.params, "test_1234")] });
+    if (req.body.type == "mongodb") res.status(200).send({ code: 200, message: [await get_internal_data_mongodb(req.body.collection, req.body.query, "test_1234")] });
     else res.status(401).send({ code: 401, message: "Database format not supported" });
   }
 });
